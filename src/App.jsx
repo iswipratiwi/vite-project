@@ -29,8 +29,7 @@ function addNewTodo(){
     setTodos(updatedTodos)
     setNewTodo('')
   }
-
-  }
+}
 
 function completeTodo(targetTodoid) {
   const updatedTodos = Todos.map(todo => {
@@ -73,8 +72,10 @@ function handleChange(event) {
             className='todo-item' 
             style={{
               textDecoration: todo.isCompleted ? 'line-through' : 'none'}}>
-              <input type='checkbox'onChange={() => completeTodo(todo.id)}/> 
-              {todo.title}
+              <p>
+                <input type='checkbox'onChange={() => completeTodo(todo.id)}/> 
+                {todo.title}
+              <button style={{marginLeft: '16px'}}>X</button></p>
             </li>
           ))
         }
