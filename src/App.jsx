@@ -13,19 +13,24 @@ const DUMMY_TODO = [
 function App() {
   const [Todos, setTodos] = useState(DUMMY_TODO)
   const [newTodo, setNewTodo] = useState('')
+  const [error, setError] = useState('')
 
 function addNewTodo(){
-  const updatedTodos = [...Todos]
-  const objTodo = {
-    id: nanoid(),
-    title: newTodo,
-    isCompleted: false
+  if (newTodo.length === 0) {
+    setError('Todo tidak boleh kosong')
+  } else {
+    const updatedTodos = [...Todos]
+    const objTodo = {
+      id: nanoid(),
+      title: newTodo,
+      isCompleted: false
+    }
+    updatedTodos.push(objTodo)
+    setTodos(updatedTodos)
+    setNewTodo('')
   }
 
-  updatedTodos.push(objTodo)
-  setTodos(updatedTodos)
-  setNewTodo('')
-}
+  }
 
 function completeTodo(targetTodoid) {
   const updatedTodos = Todos.map(todo => {
@@ -41,6 +46,11 @@ function completeTodo(targetTodoid) {
   //console.log (Todos) --> cek true false di console
 }
 
+function handleChange(event) {
+  setNewTodo(event.target.value)
+  setError('')
+}
+
   return (
     <>
       <h1>Todo App</h1>
@@ -48,9 +58,14 @@ function completeTodo(targetTodoid) {
         type='text' 
         placeholder='Mau mengerjakan apa?' 
         value={newTodo} 
-        onChange={event => setNewTodo(event.target.value)}
+        onChange={event => handleChange(event)}
       />
       <button onClick={() => addNewTodo()}>Create</button>
+      {
+        error.length > 0 ? (
+          <p>{error}</p>
+        ) : null
+      }
       <ul>
         {
           Todos.map((todo) => (
